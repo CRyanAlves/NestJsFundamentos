@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
-import { CreateUserDto } from './dto/create-user-dto';
-import { UpdateUserDTO } from './dto/update-user-dto';
+import { Repository } from 'typeorm';
+import { CreateUserDTO } from './dto/create-user-dto';
+import * as bcrypt from 'bcryptjs';
+import { LoginDTO } from 'src/auth/dto/login.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,29 +13,19 @@ export class UsersService {
     private usersRepository: Repository<User>,
   ) {}
 
-  create(userDTO: CreateUserDto): Promise<User> {
-    const user = new User();
-    user.id = userDTO.id;
-    user.firstName = userDTO.firstName;
-    user.lastName = userDTO.lastName;
-    user.email = userDTO.email;
-    user.password = userDTO.password;
-    return this.usersRepository.save(user);
+  async create(userDTO: CreateUserDTO): Promise<User> {
+    const salt = await bcrypt.genSalt();
+    userDTO.password = await bcrypt.hash(userDTO.password, salt);
+    const user = await this.usersRepository.save(userDTO);
+    delete user.password;
+    return user;
   }
 
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
-  }
-
-  findOne(id: number): Promise<User> {
-    return this.usersRepository.findOneBy({ id });
-  }
-
-  remove(id: number): Promise<DeleteResult> {
-    return this.usersRepository.delete(id);
-  }
-
-  update(id: number, recordToUpdate: UpdateUserDTO): Promise<UpdateResult> {
-    return this.usersRepository.update(id, recordToUpdate);
+  async findOne(data: LoginDTO): Promise<User> {
+    const user = await this.usersRepository.findOneBy({ email: data.email });
+    if (!user) {
+      throw new UnauthorizedException('Could not find user');
+    }
+    return user;
   }
 }

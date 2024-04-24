@@ -12,12 +12,14 @@ import { Playlist } from './playlists/playlist.entity';
 import { PlayListModule } from './playlists/playlists.module';
 // import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      database: 'spotify-clone',
+      database: 'spotify-clone-01',
       host: 'localhost',
       port: 5432,
       username: 'postgres',
@@ -28,6 +30,8 @@ import { UsersModule } from './users/users.module';
     SongsModule,
     PlayListModule,
     UsersModule,
+    AuthModule,
+    JwtModule.register({ secret: 'HAD_12X#@' }),
   ],
   controllers: [AppController],
   providers: [AppService],
