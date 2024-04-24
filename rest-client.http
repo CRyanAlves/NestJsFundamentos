@@ -49,19 +49,32 @@ Content-Type: application/json
     ],
     "user": 2
 }
-###Find all users 
-GET http://localhost:3000/users
 
-###Find One user
-GET http://localhost:3000/users/2
+### Signup User
 
-###Put a new user
-PUT http://localhost:3000/users/2
+POST http://localhost:3000/auth/signup
 Content-Type: application/json
 
 {
-  "email": "harry@example.com",
+    "firstName": "john",
+    "lastName": "doe",
+    "email": "john12@gmail.com",
+    "password": "123456"
 }
 
-###Delete a user
-DELETE http://localhost:3000/users/2
+### Login User
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email": "john12@gmail.com",
+    "password": "123456"
+}
+
+## Access TOKEN : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4xMkBnbWFpbC5jb20iLCJzdWIiOjEsImlhdCI6MTY4NDg1NTYyMSwiZXhwIjoxNjg0OTQyMDIxfQ.4FAABSVzS_6NUAjldhn7-EZ0UbAUUfKgGZ0Qv4tma7M
+
+### Profile
+
+GET http://localhost:3000/profile
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4xMkBnbWFpbC5jb20iLCJpYXQiOjE3MTM5ODAzMTAsImV4cCI6MTcxNDA2NjcxMH0.d2kiLghFFaH2HUyo_Jwj7B4M7XhD-ypwAnorNKSGz5U
