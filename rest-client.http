@@ -77,4 +77,4 @@ Content-Type: application/json
 ### Profile
 
 GET http://localhost:3000/profile
-Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4xMkBnbWFpbC5jb20iLCJpYXQiOjE3MTM5ODAzMTAsImV4cCI6MTcxNDA2NjcxMH0.d2kiLghFFaH2HUyo_Jwj7B4M7XhD-ypwAnorNKSGz5U
+Authorization: Bearer  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4xMkBnbWFpbC5jb20iLCJzdWIiOjEsImlhdCI6MTcxNDEzMTQ3NywiZXhwIjoxNzE0MjE3ODc3fQ.IuoKzATKFOMheg_MY_PjS5E2gK8Bm-VGjpBJUc85g0g
