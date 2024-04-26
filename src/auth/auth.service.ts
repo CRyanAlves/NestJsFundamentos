@@ -16,7 +16,7 @@ export class AuthService {
 
     if (passwordMatched) {
       delete user.password;
-      const payload = { email: user.email, sub: user.lastName };
+      const payload = { email: user.email, sub: user.id };
       return {
         accessToken: this.jwtService.sign(payload),
       };
