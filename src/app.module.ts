@@ -14,6 +14,7 @@ import { PlayListModule } from './playlists/playlists.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ArtistsModule } from './artists/artists.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
     UsersModule,
     AuthModule,
     JwtModule.register({ secret: 'HAD_12X#@' }),
+    ArtistsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -4,10 +4,16 @@ import { LoginDTO } from './dto/login.dto';
 import { User } from 'src/users/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { ArtistsService } from 'src/artists/artists.service';
+import { Payload } from './types';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UsersService, private jwtService: JwtService) {}
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+    private artistsService: ArtistsService,
+  ) {}
 
   async login(loginDTO: LoginDTO): Promise<{ accessToken: string }> {
     const user = await this.userService.findOne(loginDTO);
@@ -16,7 +22,11 @@ export class AuthService {
 
     if (passwordMatched) {
       delete user.password;
-      const payload = { email: user.email, sub: user.id };
+      const payload: Payload = { email: user.email, userId: user.id };
+      const artist = await this.artistsService.findArtist(user.id);
+      if (artist) {
+        payload.artistId = artist.id;
+      }
       return {
         accessToken: this.jwtService.sign(payload),
       };
