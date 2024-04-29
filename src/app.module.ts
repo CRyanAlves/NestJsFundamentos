@@ -20,7 +20,7 @@ import { ArtistsModule } from './artists/artists.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      database: 'spotify-clone-01',
+      database: 'spotify-clone-02',
       host: 'localhost',
       port: 5432,
       username: 'postgres',

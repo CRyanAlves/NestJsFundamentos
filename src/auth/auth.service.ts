@@ -50,15 +50,16 @@ export class AuthService {
     }
   }
   async enable2FA(userId: number): Promise<Enable2FAType> {
-    const user = await this.userService.findById(userId);
+    const user = await this.userService.findById(userId); //1
     if (user.enable2FA) {
+      //2
       return { secret: user.twoFASecret };
     }
-    const secret = speakeasy.generateSecret();
+    const secret = speakeasy.generateSecret(); //3
     console.log(secret);
-    user.twoFASecret = secret.base32;
-    await this.userService.updateSecretKey(user.id, user.twoFASecret);
-    return { secret: user.twoFASecret };
+    user.twoFASecret = secret.base32; //4
+    await this.userService.updateSecretKey(user.id, user.twoFASecret); //5
+    return { secret: user.twoFASecret }; //6
   }
 
   async validate2FAToken(userId: number, token: string): Promise<{ verified: boolean }> {
@@ -87,5 +88,9 @@ export class AuthService {
   }
   async disable2FA(userId: number): Promise<UpdateResult> {
     return this.userService.disable2FA(userId);
+  }
+
+  async validateUserByApiKey(apiKey: string): Promise<User> {
+    return this.userService.findByApiKey(apiKey);
   }
 }
